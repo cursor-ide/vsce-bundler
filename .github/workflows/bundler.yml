@@ -44,6 +44,15 @@ jobs:
       - name: Lint code
         run: deno task lint
 
+      - name: Commit formatting changes if any
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore: auto-format code"
+          fi
+
       - name: Run type check
         run: deno check **/*.ts
 
@@ -52,6 +61,19 @@ jobs:
 
       - name: Validate JSR package
         run: deno task publish-dry
+
+      - name: Commit changes if any
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            VERSION=$(jq -r .version jsr.json)
+            git commit -m "chore: sync types → v$VERSION"
+            git push origin HEAD
+          else
+            echo "No changes to commit."
+          fi
 
       - name: Publish to JSR
         if: success() && github.ref == 'refs/heads/main'
