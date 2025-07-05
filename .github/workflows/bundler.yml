@@ -1,0 +1,66 @@
+name: Build and Test @vsce/bundler
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'packages/vsce-bundler/**'
+      - '.github/workflows/bundler.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'packages/vsce-bundler/**'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Needed for JSR publishing
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.deno
+            ~/.cache/deno
+          key: ${{ runner.os }}-deno-${{ hashFiles('**/deno.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-deno-
+
+      - name: Check formatting
+        working-directory: packages/vsce-bundler
+        run: deno fmt --check
+
+      - name: Lint code
+        working-directory: packages/vsce-bundler
+        run: deno lint
+
+      - name: Run type check
+        working-directory: packages/vsce-bundler
+        run: deno check **/*.ts
+
+      - name: Run tests
+        working-directory: packages/vsce-bundler
+        run: deno test -A
+
+      - name: Validate JSR package
+        working-directory: packages/vsce-bundler
+        run: deno task publish-dry
+
+      - name: Publish to JSR
+        working-directory: packages/vsce-bundler
+        if: success() && github.ref == 'refs/heads/main'
+        run: npx jsr publish
