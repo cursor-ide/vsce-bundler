@@ -4,12 +4,10 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'packages/vsce-bundler/**'
+      - '**'
       - '.github/workflows/bundler.yml'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'packages/vsce-bundler/**'
   workflow_dispatch: # Allow manual triggering
 
 jobs:
