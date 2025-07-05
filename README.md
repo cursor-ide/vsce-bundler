@@ -5,9 +5,9 @@
 [![JSR Scope](https://jsr.io/badges/@vsce)](https://jsr.io/@vsce)
 [![JSR](https://jsr.io/badges/@vsce/bundler)](https://jsr.io/@vsce/bundler)
 [![JSR Score](https://jsr.io/badges/@vsce/bundler/score)](https://jsr.io/@vsce/bundler/score)
-[![GitHub CI](https://img.shields.io/github/actions/workflow/status/cursor-ide/typed-vscode/update.yml?branch=main&label=sync)](https://github.com/cursor-ide/typed-vscode/actions/workflows/update.yml)
-[![Last Updated](https://img.shields.io/github/last-commit/cursor-ide/typed-vscode?label=last%20synced)](https://github.com/cursor-ide/typed-vscode/commits/main)
-[![License](https://img.shields.io/github/license/cursor-ide/typed-vscode)](https://github.com/cursor-ide/typed-vscode/blob/main/LICENSE)
+[![GitHub CI](https://img.shields.io/github/actions/workflow/status/cursor-ide/vsce-bundler/bundler.yml?branch=main&label=sync)](https://github.com/cursor-ide/vsce-bundler/actions/workflows/bundler.yml)
+[![Last Updated](https://img.shields.io/github/last-commit/cursor-ide/vsce-bundler?label=last%20synced)](https://github.com/cursor-ide/vsce-bundler/commits/main)
+[![License](https://img.shields.io/github/license/cursor-ide/vsce-bundler)](https://github.com/cursor-ide/vsce-bundler/blob/main/LICENSE)
 
 `@vsce/bundler` is a **zero-configuration**, **Deno-native** bundler for building modern VS Code extensions and publishing them on the [JSR](https://jsr.io) registry. It wraps Deno’s native `@deno/emit` pipeline with smart defaults—minification, cache-aware incremental builds, and detailed diagnostics—while keeping the resulting bundle fully ESM-compatible and Web-extension-ready.
 
