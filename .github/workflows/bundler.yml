@@ -41,26 +41,20 @@ jobs:
             ${{ runner.os }}-deno-
 
       - name: Check formatting
-        working-directory: packages/vsce-bundler
         run: deno task fmt
 
       - name: Lint code
-        working-directory: packages/vsce-bundler
         run: deno task lint
 
       - name: Run type check
-        working-directory: packages/vsce-bundler
         run: deno check **/*.ts
 
       - name: Run tests
-        working-directory: packages/vsce-bundler
         run: deno task test
 
       - name: Validate JSR package
-        working-directory: packages/vsce-bundler
         run: deno task publish-dry
 
       - name: Publish to JSR
-        working-directory: packages/vsce-bundler
         if: success() && github.ref == 'refs/heads/main'
         run: npx jsr publish
