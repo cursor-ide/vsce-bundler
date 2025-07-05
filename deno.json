@@ -17,7 +17,7 @@
 		"@std/path": "jsr:@std/path@^1.0.0",
 		"@std/fs": "jsr:@std/fs@^1.0.0",
 		"@std/fs/walk": "jsr:@std/fs/walk@^1.0.0",
-		"@std/fmt/colors": "jsr:@std/fmt/colors@^1.0.0",
+		"@std/fmt/colors": "jsr:@std/fmt@^1.0.0/colors",
 		"@deno/emit": "jsr:@deno/emit@^0.46.0",
 		"@typed/vscode": "jsr:@typed/vscode@^1.101.0"
 	},

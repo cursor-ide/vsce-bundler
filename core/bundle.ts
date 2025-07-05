@@ -34,7 +34,7 @@ let colors: Colors = {
 };
 try {
   // Use the import map from deno.json
-  const fmt = await import("jsr:@std/fmt/colors@^1.0.0");
+  const fmt = await import("jsr:@std/fmt@^1.0.0/colors");
   const { green, red, blue, cyan, yellow } = fmt as unknown as Colors & Record<string, unknown>;
   colors = { green, red, blue, cyan, yellow };
 } catch {
