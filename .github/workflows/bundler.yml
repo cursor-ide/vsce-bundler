@@ -18,31 +18,30 @@ jobs:
       id-token: write # Needed for JSR publishing
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: v2.x
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.deno
-            ~/.cache/deno
-          key: ${{ runner.os }}-deno-${{ hashFiles('**/deno.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-deno-
+      - name: Regenerate lockfile if needed
+        run: |
+          if ! deno cache --check mod.ts 2>/dev/null; then
+            echo "Regenerating lockfile due to version mismatch"
+            rm -f deno.lock
+            deno cache mod.ts
+          fi
 
-      - name: Check formatting
-        run: deno task fmt
+      - name: Type check updated types
+        run: deno task check
 
       - name: Lint code
         run: deno task lint
+
+      - name: Format code
+        run: deno task fmt
 
       - name: Commit formatting changes if any
         run: |
@@ -52,9 +51,6 @@ jobs:
             git add -A
             git commit -m "chore: auto-format code"
           fi
-
-      - name: Run type check
-        run: deno task check || deno check **/*.ts
 
       - name: Run tests
         run: deno task test
@@ -70,7 +66,7 @@ jobs:
             git add -A
             VERSION=$(jq -r .version jsr.json)
             git commit -m "chore: sync types → v$VERSION"
-            git push origin HEAD || echo "Push failed - this is expected in PR builds"
+            git push origin HEAD
           else
             echo "No changes to commit."
           fi
