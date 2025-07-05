@@ -1,7 +1,7 @@
 {
-  "name": "@vsce/bundler",
-  "version": "0.1.0",
-  "exports": {
-    ".": "./mod.ts"
-  }
+	"name": "@vsce/bundler",
+	"version": "0.1.0",
+	"exports": {
+		".": "./mod.ts"
+	}
 }
